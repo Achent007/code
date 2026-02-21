@@ -1,262 +1,185 @@
+# ----------------------------
+# MULTI CALC
+# ----------------------------
 function updatePlayerMulti(p: player):
-    set {multi_pets::%{_p}%} to 1.0
-    loop {pets::%{_p}%::*}:
+    set {multi_pets::%uuid of {_p}%} to 1.0
+    loop {pets::%uuid of {_p}%::*}:
         if loop-value contains "cow":
-            add 0.05 to {multi_pets::%{_p}%}
+            add 0.05 to {multi_pets::%uuid of {_p}%}
         else if loop-value contains "pig":
-            add 0.08 to {multi_pets::%{_p}%}
+            add 0.08 to {multi_pets::%uuid of {_p}%}
         else if loop-value contains "chicken":
-            add 0.09 to {multi_pets::%{_p}%}
+            add 0.09 to {multi_pets::%uuid of {_p}%}
         else if loop-value contains "bee":
-            add 0.10 to {multi_pets::%{_p}%}
+            add 0.10 to {multi_pets::%uuid of {_p}%}
         else if loop-value contains "rabbit":
-            add 0.15 to {multi_pets::%{_p}%}
+            add 0.15 to {multi_pets::%uuid of {_p}%}
         else if loop-value contains "fox":
-            add 0.20 to {multi_pets::%{_p}%}
+            add 0.20 to {multi_pets::%uuid of {_p}%}
         else if loop-value contains "goat":
-            add 0.35 to {multi_pets::%{_p}%}
+            add 0.35 to {multi_pets::%uuid of {_p}%}
         else if loop-value contains "cat":
-            add 0.50 to {multi_pets::%{_p}%}
+            add 0.50 to {multi_pets::%uuid of {_p}%}
         else if loop-value contains "frog":
-            add 0.65 to {multi_pets::%{_p}%}
+            add 0.65 to {multi_pets::%uuid of {_p}%}
         else if loop-value contains "parrot":
-            add 0.75 to {multi_pets::%{_p}%}
+            add 0.75 to {multi_pets::%uuid of {_p}%}
         else if loop-value contains "sniffer":
-            add 1.0 to {multi_pets::%{_p}%}
+            add 1.0 to {multi_pets::%uuid of {_p}%}
         else if loop-value contains "wolf":
-            add 1.5 to {multi_pets::%{_p}%}
+            add 1.5 to {multi_pets::%uuid of {_p}%}
         else if loop-value contains "camel":
-            add 2.0 to {multi_pets::%{_p}%}
+            add 2.0 to {multi_pets::%uuid of {_p}%}
         else if loop-value contains "panda":
-            add 2.5 to {multi_pets::%{_p}%}
+            add 2.5 to {multi_pets::%uuid of {_p}%}
         else if loop-value contains "polar bear":
-            add 4.0 to {multi_pets::%{_p}%}
+            add 4.0 to {multi_pets::%uuid of {_p}%}
         else if loop-value contains "llama":
-            add 5.5 to {multi_pets::%{_p}%}
+            add 5.5 to {multi_pets::%uuid of {_p}%}
         else if loop-value contains "axolotl":
-            add 7.5 to {multi_pets::%{_p}%}
+            add 7.5 to {multi_pets::%uuid of {_p}%}
         else if loop-value contains "iron golem":
-            add 10.0 to {multi_pets::%{_p}%}
+            add 10.0 to {multi_pets::%uuid of {_p}%}
         else if loop-value contains "warden":
-            add 15.0 to {multi_pets::%{_p}%}
+            add 15.0 to {multi_pets::%uuid of {_p}%}
         else if loop-value contains "ender dragon":
-            add 50.0 to {multi_pets::%{_p}%}
+            add 50.0 to {multi_pets::%uuid of {_p}%}
 
-command /pets:
-    trigger:
-        delete metadata "delete_mode" of player
-        updatePlayerMulti(player)
-        open chest inventory with 3 rows named "&6&lᴘᴇᴛꜱ ᴍᴇɴᴜ 🐾" to player
-        
-        # Stats & Navigation
-        set {_m} to {multi_pets::%player%} ? 1
-        set slot 4 of player's current inventory to nether star named "&b&lʏᴏᴜʀ ꜱᴛᴀᴛꜱ" with lore "&7Total Multiplier: &e+%{_m}%"
-        
-        set {_count} to size of {pets::%player%::*}
-        set slot 11 of player's current inventory to bone named "&e&lʙᴜʏ ᴀ ᴘᴇᴛ" with lore "&7Price: &c1 ʀᴜʙɪᴇꜱ" and "&7Capacity: &f%{_count}%/36" and "" and "&6▶ ᴄʟɪᴄᴋ ᴛᴏ ᴜɴʟᴏᴄᴋ ᴀ ʀᴀɴᴅᴏᴍ ᴘᴇᴛ!"
-        
-        # --- ADDED SLOT 22 HERE ---
-        set slot 22 of player's current inventory to book named "&e&lᴘᴇᴛ ɪɴꜰᴏʀᴍᴀᴛɪᴏɴ" with lore "&7View all possible pets," and "&7their multipliers, and chances." and "" and "&6▶ ᴄʟɪᴄᴋ ᴛᴏ ᴠɪᴇᴡ ᴏᴅᴅꜱ!"
-        
-        set slot 15 of player's current inventory to lead named "&a&lᴍʏ ᴄᴏʟʟᴇᴄᴛɪᴏɴ" with lore "&7View your pets" and "" and "&6▶ ᴄʟɪᴄᴋ ᴛᴏ ᴏᴘᴇɴ ʏᴏᴜʀ ᴠᴀᴜʟᴛ!"
+function petBonusText(petName: text) :: text:
+    set {_m} to "+0.0"
+    if {_petName} contains "cow":
+        set {_m} to "&aX0.05"
+    else if {_petName} contains "pig":
+        set {_m} to "&aX0.08"
+    else if {_petName} contains "chicken":
+        set {_m} to "&aX0.09"
+    else if {_petName} contains "bee":
+        set {_m} to "&aX0.10"
+    else if {_petName} contains "rabbit":
+        set {_m} to "&aX0.15"
+    else if {_petName} contains "fox":
+        set {_m} to "&aX0.20"
+    else if {_petName} contains "goat":
+        set {_m} to "&aX0.35"
+    else if {_petName} contains "cat":
+        set {_m} to "&aX0.50"
+    else if {_petName} contains "frog":
+        set {_m} to "&aX0.65"
+    else if {_petName} contains "parrot":
+        set {_m} to "&aX0.75"
+    else if {_petName} contains "sniffer":
+        set {_m} to "&aX1.0"
+    else if {_petName} contains "wolf":
+        set {_m} to "&aX1.5"
+    else if {_petName} contains "camel":
+        set {_m} to "&aX2.0"
+    else if {_petName} contains "panda":
+        set {_m} to "&aX2.5"
+    else if {_petName} contains "polar bear":
+        set {_m} to "&aX4.0"
+    else if {_petName} contains "llama":
+        set {_m} to "&aX5.5"
+    else if {_petName} contains "axolotl":
+        set {_m} to "&aX7.5"
+    else if {_petName} contains "iron golem":
+        set {_m} to "&aX10.0"
+    else if {_petName} contains "warden":
+        set {_m} to "&aX15.0"
+    else if {_petName} contains "ender dragon":
+        set {_m} to "&5&lX50.0"
+    return {_m}
 
-on inventory click:
-    if name of player's current inventory is "&6&lᴘᴇᴛꜱ ᴍᴇɴᴜ 🐾":
-        cancel event
-        if clicked slot is 11:
-            if size of {pets::%player%::*} >= 36:
-                send "&c&l❌ ʏᴏᴜʀ ᴘᴇᴛ ᴄᴏʟʟᴇᴄᴛɪᴏɴ ɪꜱ ꜰᴜʟʟ! (36/36)" to player
-                play sound "entity.villager.no" to player
-                stop
-            if {rubies::%player%} >= 1:
-                remove 1 from {rubies::%player%}
-                close inventory of player
-                petOpeningAnimation(player)
-            else:
-                send "&c&l❌ &cʏᴏᴜ ᴅᴏɴ'ᴛ ʜᴀᴠᴇ ᴇɴᴏᴜGH ʀᴜʙɪᴇꜱ!"
-        if clicked slot is 15:
-            openPetsCollection(player)
-
-function petOpeningAnimation(p: player):
-    open chest inventory with 3 rows named "&d&lᴜɴʟᴏᴄᴋɪɴɢ ᴘᴇᴛ..." to {_p}
-    set {_visual::*} to cow spawn egg, pig spawn egg, chicken spawn egg, bee spawn egg, rabbit spawn egg, fox spawn egg, goat spawn egg, cat spawn egg, frog spawn egg, parrot spawn egg, sniffer spawn egg, wolf spawn egg, camel spawn egg, panda spawn egg, polar bear spawn egg, llama spawn egg, axolotl spawn egg, iron golem spawn egg, warden spawn egg, ender dragon spawn egg
-    loop 20 times:
-        set slot 13 of {_p}'s current inventory to random element out of {_visual::*} named "&e&l???"
-        play sound "block.note_block.bit" with volume 0.5 to {_p}
-        wait 2 ticks
-    set {_chance} to random integer between 1 and 1000
-    if {_chance} is between 1 and 400:
-        set {_final} to random element out of cow spawn egg, pig spawn egg, chicken spawn egg, bee spawn egg, rabbit spawn egg, fox spawn egg, goat spawn egg
-        set {_rarity} to "&7(COMMON)"
-    else if {_chance} is between 401 and 700:
-        set {_final} to random element out of cat spawn egg, frog spawn egg, parrot spawn egg, sniffer spawn egg
-        set {_rarity} to "&a(UNCOMMON)"
-    else if {_chance} is between 701 and 900:
-        set {_final} to random element out of wolf spawn egg, camel spawn egg, panda spawn egg
-        set {_rarity} to "&b(RARE)"
-    else if {_chance} is between 901 and 995:
-        set {_final} to random element out of polar bear spawn egg, llama spawn egg, axolotl spawn egg, iron golem spawn egg, warden spawn egg
-        set {_rarity} to "&6&l(LEGENDARY)"
-    else:
-        set {_final} to ender dragon spawn egg
-        set {_rarity} to "&5&k&lII&d&l ULTIMATE &5&k&lII"
-        broadcast "&d&l⚡ %{_p}% ᴊᴜꜱᴛ ᴜɴʟᴏᴄᴋᴇᴅ ᴛʜᴇ &5&lᴇɴᴅᴇʀ ᴅʀᴀɢᴏɴ ᴘᴇᴛ! &d&l⚡"
-
-    set {_name} to "%{_final}%"
-    replace all " spawn egg" with "" in {_name}
-    add {_name} to {pets::%{_p}%::*}
+# ----------------------------
+# MENUS
+# ----------------------------
+function openPetsMainMenu(p: player):
+    clear metadata value "delete_mode" of {_p}
     updatePlayerMulti({_p})
-    set slot 13 of {_p}'s current inventory to {_final} named "&a&lᴄᴏɴɢʀᴀᴛᴜʟᴀᴛɪᴏɴs !" with lore "&7ʏᴏᴜ ᴜɴʟᴏᴄᴋᴇᴅ: &e%{_name}% %{_rarity}%"
-    play sound "entity.player.levelup" with volume 1 to {_p}
-    send "&6&lᴘᴇᴛꜱ &f⇨ &aɴᴇᴡ ᴘᴇᴛ ᴜɴʟᴏᴄᴋᴇᴅ: &e&l%{_name}% %{_rarity}%" to {_p}
+
+    open chest inventory with 3 rows named "&6&lᴘᴇᴛꜱ ᴍᴇɴᴜ 🐾" to {_p}
+
+    set {_m} to {multi_pets::%uuid of {_p}%}
+    if {_m} is not set:
+        set {_m} to 1
+
+    set slot 4 of {_p}'s current inventory to nether star named "&b&lʏᴏᴜʀ ꜱᴛᴀᴛꜱ" with lore "&7Total Multiplier: &e+%{_m}%"
+
+    set {_count} to size of {pets::%uuid of {_p}%::*}
+    set slot 11 of {_p}'s current inventory to bone named "&e&lʙᴜʏ ᴀ ᴘᴇᴛ" with lore "&7Price: &c1 ʀᴜʙɪᴇꜱ" and "&7Capacity: &f%{_count}%/36" and "" and "&6▶ ᴄʟɪᴄᴋ ᴛᴏ ᴜɴʟᴏᴄᴋ ᴀ ʀᴀɴᴅᴏᴍ ᴘᴇᴛ!"
+
+    set slot 22 of {_p}'s current inventory to book named "&e&lᴘᴇᴛ ɪɴꜰᴏʀᴍᴀᴛɪᴏɴ" with lore "&7View all possible pets," and "&7their multipliers, and chances." and "" and "&6▶ ᴄʟɪᴄᴋ ᴛᴏ ᴠɪᴇᴡ ᴏᴅᴅꜱ!"
+
+    set slot 15 of {_p}'s current inventory to lead named "&a&lᴍʏ ᴄᴏʟʟᴇᴄᴛɪᴏɴ" with lore "&7View your pets" and "" and "&6▶ ᴄʟɪᴄᴋ ᴛᴏ ᴏᴘᴇɴ ʏᴏᴜʀ ᴠᴀᴜʟᴛ!"
 
 function openPetsCollection(p: player):
     updatePlayerMulti({_p})
-    if metadata "delete_mode" of {_p} is set:
-        open chest inventory with 5 rows named "&c&lᴅᴇʟᴇᴛᴇ ʏᴏᴜʀ ᴘᴇᴛꜱ 🗑️" to {_p}
+
+    clear {pet_gui_map::%uuid of {_p}%::*}
+    set {pet_gui_map::%uuid of {_p}%::%{_slot}%} to {_name}
+
+    if {_p} has metadata value "delete_mode":
+        open chest inventory with 5 rows named "&c&lᴅᴇʟᴇᴛᴇ ʏᴏᴜʀ ᴘᴇᴛꜱ 🗑" to {_p}
     else:
         open chest inventory with 5 rows named "&a&lʏᴏᴜʀ ᴘᴇᴛꜱ" to {_p}
-    
-    set {_slot} to 0
-    loop {pets::%{_p}%::*}:
-        set {_m} to "+0.0"
-        if loop-value contains "cow": 
-            set {_m} to "&aX0.05"
-        else if loop-value contains "pig": 
-            set {_m} to "&aX0.08"
-        else if loop-value contains "chicken": 
-            set {_m} to "&aX0.09"
-        else if loop-value contains "bee": 
-            set {_m} to "&aX0.10"
-        else if loop-value contains "rabbit": 
-            set {_m} to "&aX0.15"
-        else if loop-value contains "fox": 
-            set {_m} to "&aX0.20"
-        else if loop-value contains "goat": 
-            set {_m} to "&aX0.35"
-        else if loop-value contains "cat": 
-            set {_m} to "&aX0.50"
-        else if loop-value contains "frog": 
-            set {_m} to "&aX0.65"
-        else if loop-value contains "parrot": 
-            set {_m} to "&aX0.75"
-        else if loop-value contains "sniffer": 
-            set {_m} to "&aX1.0"
-        else if loop-value contains "wolf": 
-            set {_m} to "&aX1.5"
-        else if loop-value contains "camel": 
-            set {_m} to "&aX2.0"
-        else if loop-value contains "panda": 
-            set {_m} to "&aX2.5"
-        else if loop-value contains "polar bear":
-            set {_m} to "&aX4.0"
-        else if loop-value contains "llama": 
-            set {_m} to "&aX5.5"
-        else if loop-value contains "axolotl": 
-            set {_m} to "&aX7.5"
-        else if loop-value contains "iron golem": 
-            set {_m} to "&aX10.0"
-        else if loop-value contains "warden": 
-            set {_m} to "&aX15.0"
-        else if loop-value contains "ender dragon": 
-            set {_m} to "&5&lX50.0"
 
-        set {_item} to "%loop-value% spawn egg" parsed as item
-        if metadata "delete_mode" of {_p} is set:
-            set slot {_slot} of {_p}'s current inventory to {_item} named "&c&lᴅᴇʟᴇᴛᴇ %loop-value%" with lore "&7Bonus: %{_m}%" and "" and "&4&l[!] ᴄʟɪᴄᴋ ᴛᴏ ᴘᴇʀᴍᴀɴᴇɴᴛʟʏ ᴅᴇʟᴇᴛᴇ"
+    set {_slot} to 0
+    loop {pets::%uuid of {_p}%::*}:
+        set {_name} to loop-value
+        set {_m} to petBonusText({_name})
+        set {_item} to "%{_name}% spawn egg" parsed as item
+
+        set {pet_gui_map::%uuid of {_p}%::%{_slot}%} to {_name}
+
+        if {_p} has metadata value "delete_mode":
+            set slot {_slot} of {_p}'s current inventory to {_item} named "&c&lᴅᴇʟᴇᴛᴇ %{_name}%" with lore "&7Bonus: %{_m}%" and "" and "&4&l[!] ᴄʟɪᴄᴋ ᴛᴏ ᴘᴇʀᴍᴀɴᴇɴᴛʟʏ ᴅᴇʟᴇᴛᴇ"
         else:
-            set slot {_slot} of {_p}'s current inventory to {_item} named "&e&l%loop-value%" with lore "&7Bonus: %{_m}% ᴍᴏɴᴇʏ"
+            set slot {_slot} of {_p}'s current inventory to {_item} named "&e&l%{_name}%" with lore "&7Bonus: %{_m}% ᴍᴏɴᴇʏ"
+
         add 1 to {_slot}
         if {_slot} >= 36:
             stop loop
 
     set slot 40 of {_p}'s current inventory to arrow named "&7Back"
-    
-    if metadata "delete_mode" of {_p} is set:
+
+    if {_p} has metadata value "delete_mode":
         set slot 44 of {_p}'s current inventory to bucket named "&a&lᴇxɪᴛ ᴅᴇʟᴇᴛɪᴏɴ ᴍᴏᴅᴇ" with lore "&7Click to stop deleting pets."
     else:
         set slot 44 of {_p}'s current inventory to barrier named "&c&lᴅᴇʟᴇᴛɪᴏɴ ᴍᴏᴅᴇ" with lore "&7Click to enter delete mode." and "&7You will be able to remove pets."
 
-on inventory click:
-    if name of player's current inventory is "&a&lʏᴏᴜʀ ᴘᴇᴛꜱ" or "&c&lᴅᴇʟᴇᴛᴇ ʏᴏᴜʀ ᴘᴇᴛꜱ 🗑️":
-        cancel event
-        
-        if clicked slot is 40:
-            delete metadata "delete_mode" of player
-            execute player command "/pets"
-            stop
-
-        if clicked slot is 44:
-            if metadata "delete_mode" of player is set:
-                delete metadata "delete_mode" of player
-                send "&aExited deletion mode." to player
-            else:
-                set metadata "delete_mode" of player to true
-                send "&cEntered deletion mode!" to player
-            openPetsCollection(player)
-            stop
-
-        # --- RE-WRITTEN ROBUST DELETE LOGIC ---
-        if metadata "delete_mode" of player is set:
-            if clicked slot is between 0 and 35:
-                # Find the actual ID in the list using the slot number
-                set {_slot_clicked} to clicked slot
-                
-                # Check how many pets exist
-                set {_size} to size of {pets::%player%::*}
-                
-                # Only proceed if they actually clicked a slot that has a pet
-                if {_slot_clicked} < {_size}:
-                    # Skript lists are 1-based, so slot 0 is index 1
-                    set {_index} to {_slot_clicked} + 1
-                    
-                    set {_deleted_pet} to {pets::%player%::%{_index}%}
-                    
-                    # Delete the specific index
-                    delete {pets::%player%::%{_index}%}
-                    
-                    # This is the most important part: Re-build the list to remove the gap
-                    set {_temp::*} to {pets::%player%::*}
-                    clear {pets::%player%::*}
-                    set {pets::%player%::*} to {_temp::*}
-                    
-                    updatePlayerMulti(player)
-                    play sound "entity.item.break" to player
-                    send "&c&l🗑️ &7Removed &e%{_deleted_pet}% &7from your collection." to player
-                    
-                    # Redraw menu
-                    openPetsCollection(player)
-
-command /resetpets <player>:
-    permission: op
-    trigger:
-        clear {pets::%arg-1%::*}
-        set {multi_pets::%arg-1%} to 1.0
-        send "&aReset pets for %arg-1%" to player
-
-on inventory click:
-    if name of player's current inventory is "&d&lᴜɴʟᴏᴄᴋɪɴɢ ᴘᴇᴛ...":
-        cancel event
-		
-# --- ADD THIS TO YOUR /pets TRIGGER ---
-# set slot 22 of player's current inventory to book named "&e&lᴘᴇᴛ ɪɴꜰᴏʀᴍᴀᴛɪᴏɴ" with lore "&7View all possible pets," and "&7their multipliers, and chances." and "" and "&6▶ ᴄʟɪᴄᴋ ᴛᴏ ᴠɪᴇᴡ ᴏᴅᴅꜱ!"
-
-on inventory click:
-    if name of player's current inventory is "&6&lᴘᴇᴛꜱ ᴍᴇɴᴜ 🐾":
-        # ... your existing logic (clicked slot 11, 15, etc) ...
-        if clicked slot is 22:
-            openPetOdds(player)
-
-# --- THE NEW ODDS GUI FUNCTION ---
 function openPetOdds(p: player):
     open chest inventory with 6 rows named "&8ᴘᴇᴛ ᴄʜᴀɴᴄᴇꜱ & ɪɴꜰᴏ" to {_p}
-    
-    # Gray Glass Border
-    set {_border::*} to 0,1,2,3,4,5,6,7,8,9,17,18,26,27,35,36,44,45,46,47,48,49,50,51,52,53
+
+    clear {_border::*}
+    add 0 to {_border::*}
+    add 1 to {_border::*}
+    add 2 to {_border::*}
+    add 3 to {_border::*}
+    add 4 to {_border::*}
+    add 5 to {_border::*}
+    add 6 to {_border::*}
+    add 7 to {_border::*}
+    add 8 to {_border::*}
+    add 9 to {_border::*}
+    add 17 to {_border::*}
+    add 18 to {_border::*}
+    add 26 to {_border::*}
+    add 27 to {_border::*}
+    add 35 to {_border::*}
+    add 36 to {_border::*}
+    add 44 to {_border::*}
+    add 45 to {_border::*}
+    add 46 to {_border::*}
+    add 47 to {_border::*}
+    add 48 to {_border::*}
+    add 49 to {_border::*}
+    add 50 to {_border::*}
+    add 51 to {_border::*}
+    add 52 to {_border::*}
+    add 53 to {_border::*}
+
     loop {_border::*}:
         set slot loop-value of {_p}'s current inventory to gray stained glass pane named " "
 
-    # --- COMMON (40%) ---
     set {_c} to "&7Common (40%%)"
     set slot 10 of {_p}'s current inventory to cow spawn egg named "&fCow Pet" with lore "&7Multi: &a+0.05" and "&7Rarity: %{_c}%"
     set slot 11 of {_p}'s current inventory to pig spawn egg named "&fPig Pet" with lore "&7Multi: &a+0.08" and "&7Rarity: %{_c}%"
@@ -266,20 +189,17 @@ function openPetOdds(p: player):
     set slot 15 of {_p}'s current inventory to fox spawn egg named "&fFox Pet" with lore "&7Multi: &a+0.20" and "&7Rarity: %{_c}%"
     set slot 16 of {_p}'s current inventory to goat spawn egg named "&fGoat Pet" with lore "&7Multi: &a+0.35" and "&7Rarity: %{_c}%"
 
-    # --- UNCOMMON (30%) ---
     set {_u} to "&aUncommon (30%%)"
     set slot 19 of {_p}'s current inventory to cat spawn egg named "&aCat Pet" with lore "&7Multi: &a+0.50" and "&7Rarity: %{_u}%"
     set slot 20 of {_p}'s current inventory to frog spawn egg named "&aFrog Pet" with lore "&7Multi: &a+0.65" and "&7Rarity: %{_u}%"
     set slot 21 of {_p}'s current inventory to parrot spawn egg named "&aParrot Pet" with lore "&7Multi: &a+0.75" and "&7Rarity: %{_u}%"
     set slot 22 of {_p}'s current inventory to sniffer spawn egg named "&aSniffer Pet" with lore "&7Multi: &a+1.0" and "&7Rarity: %{_u}%"
 
-    # --- RARE (20%) ---
     set {_r} to "&bRare (20%%)"
     set slot 28 of {_p}'s current inventory to wolf spawn egg named "&bWolf Pet" with lore "&7Multi: &a+1.5" and "&7Rarity: %{_r}%"
     set slot 29 of {_p}'s current inventory to camel spawn egg named "&bCamel Pet" with lore "&7Multi: &a+2.0" and "&7Rarity: %{_r}%"
     set slot 30 of {_p}'s current inventory to panda spawn egg named "&bPanda Pet" with lore "&7Multi: &a+2.5" and "&7Rarity: %{_r}%"
 
-    # --- LEGENDARY (9.5%) ---
     set {_l} to "&6&lLegendary (9.5%%)"
     set slot 37 of {_p}'s current inventory to polar bear spawn egg named "&6Polar Bear Pet" with lore "&7Multi: &a+4.0" and "&7Rarity: %{_l}%"
     set slot 38 of {_p}'s current inventory to llama spawn egg named "&6Llama Pet" with lore "&7Multi: &a+5.5" and "&7Rarity: %{_l}%"
@@ -287,13 +207,200 @@ function openPetOdds(p: player):
     set slot 40 of {_p}'s current inventory to iron golem spawn egg named "&6Iron Golem Pet" with lore "&7Multi: &a+10.0" and "&7Rarity: %{_l}%"
     set slot 41 of {_p}'s current inventory to warden spawn egg named "&6Warden Pet" with lore "&7Multi: &a+15.0" and "&7Rarity: %{_l}%"
 
-    # --- ULTIMATE (0.5%) ---
     set slot 42 of {_p}'s current inventory to ender dragon spawn egg named "&5&lUltimate (0.5%%)" with lore "&dEnder Dragon Pet" and "&7Multi: &d&l+50.0"
 
     set slot 49 of {_p}'s current inventory to arrow named "&7Back"
 
+# ----------------------------
+# OPENING ANIMATION
+# ----------------------------
+function petOpeningAnimation(p: player):
+    open chest inventory with 3 rows named "&d&lᴜɴʟᴏᴄᴋɪɴɢ ᴘᴇᴛ..." to {_p}
+
+    clear {_visual::*}
+    add cow spawn egg to {_visual::*}
+    add pig spawn egg to {_visual::*}
+    add chicken spawn egg to {_visual::*}
+    add bee spawn egg to {_visual::*}
+    add rabbit spawn egg to {_visual::*}
+    add fox spawn egg to {_visual::*}
+    add goat spawn egg to {_visual::*}
+    add cat spawn egg to {_visual::*}
+    add frog spawn egg to {_visual::*}
+    add parrot spawn egg to {_visual::*}
+    add sniffer spawn egg to {_visual::*}
+    add wolf spawn egg to {_visual::*}
+    add camel spawn egg to {_visual::*}
+    add panda spawn egg to {_visual::*}
+    add polar bear spawn egg to {_visual::*}
+    add llama spawn egg to {_visual::*}
+    add axolotl spawn egg to {_visual::*}
+    add iron golem spawn egg to {_visual::*}
+    add warden spawn egg to {_visual::*}
+    add ender dragon spawn egg to {_visual::*}
+
+    loop 20 times:
+        set slot 13 of {_p}'s current inventory to random element out of {_visual::*} named "&e&l???"
+        play sound "block.note_block.bit" with volume 0.5 to {_p}
+        wait 2 ticks
+
+    set {_chance} to random integer between 1 and 1000
+
+    if {_chance} is between 1 and 400:
+        set {_final} to random element out of (cow spawn egg, pig spawn egg, chicken spawn egg, bee spawn egg, rabbit spawn egg, fox spawn egg, goat spawn egg)
+        set {_rarity} to "&7(COMMON)"
+    else if {_chance} is between 401 and 700:
+        set {_final} to random element out of (cat spawn egg, frog spawn egg, parrot spawn egg, sniffer spawn egg)
+        set {_rarity} to "&a(UNCOMMON)"
+    else if {_chance} is between 701 and 900:
+        set {_final} to random element out of (wolf spawn egg, camel spawn egg, panda spawn egg)
+        set {_rarity} to "&b(RARE)"
+    else if {_chance} is between 901 and 995:
+        set {_final} to random element out of (polar bear spawn egg, llama spawn egg, axolotl spawn egg, iron golem spawn egg, warden spawn egg)
+        set {_rarity} to "&6&l(LEGENDARY)"
+    else:
+        set {_final} to ender dragon spawn egg
+        set {_rarity} to "&5&k&lII&d&l ULTIMATE &5&k&lII"
+        broadcast "&d&l⚡ %{_p}% ᴊᴜꜱᴛ ᴜɴʟᴏᴄᴋᴇᴅ ᴛʜᴇ &5&lᴇɴᴅᴇʀ ᴅʀᴀɢᴏɴ ᴘᴇᴛ! &d&l⚡"
+
+    set {_name} to "%{_final}%"
+    replace all " spawn egg" with "" in {_name}
+
+    add {_name} to {pets::%uuid of {_p}%::*}
+    updatePlayerMulti({_p})
+
+    set slot 13 of {_p}'s current inventory to {_final} named "&a&lᴄᴏɴɢʀᴀᴛᴜʟᴀᴛɪᴏɴs !" with lore "&7ʏᴏᴜ ᴜɴʟᴏᴄᴋᴇᴅ: &e%{_name}% %{_rarity}%"
+    play sound "entity.player.levelup" with volume 1 to {_p}
+    send "&6&lᴘᴇᴛꜱ &f⇨ &aɴᴇᴡ ᴘᴇᴛ ᴜɴʟᴏᴄᴋᴇᴅ: &e&l%{_name}% %{_rarity}%" to {_p}
+
+    wait 20 ticks
+    openPetsMainMenu({_p})
+
+# ----------------------------
+# COMMANDS
+# ----------------------------
+command /pets:
+    trigger:
+        openPetsMainMenu(player)
+
+command /resetpets <player>:
+    permission: op
+    trigger:
+        clear {pets::%uuid of arg-1%::*}
+        set {multi_pets::%uuid of arg-1%} to 1.0
+        send "&aReset pets for %arg-1%" to player
+
+# ----------------------------
+# CLICK HANDLING
+# ----------------------------
 on inventory click:
-    if name of player's current inventory is "&8ᴘᴇᴛ ᴄʜᴀɴᴄᴇꜱ & ɪɴꜰᴏ":
+    set {_title} to name of player's current inventory
+
+    if {_title} is "&d&lᴜɴʟᴏᴄᴋɪɴɢ ᴘᴇᴛ...":
         cancel event
+        stop
+
+    if {_title} is "&6&lᴘᴇᴛꜱ ᴍᴇɴᴜ 🐾":
+        cancel event
+
+        if clicked slot is 11:
+            if size of {pets::%uuid of player%::*} >= 36:
+                send "&c&l❌ ʏᴏᴜʀ ᴘᴇᴛ ᴄᴏʟʟᴇᴄᴛɪᴏɴ ɪꜱ ꜰᴜʟʟ! (36/36)" to player
+                play sound "entity.villager.no" to player
+                stop
+
+            if player is op:
+                close inventory of player
+                petOpeningAnimation(player)
+                stop
+
+            if {rubies::%player%} >= 1:
+                remove 1 from {rubies::%player%}
+                close inventory of player
+                petOpeningAnimation(player)
+            else:
+                send "&c&l❌ &cʏᴏᴜ ᴅᴏɴ'ᴛ ʜᴀᴠᴇ ᴇɴᴏᴜɢʜ ʀᴜʙɪᴇꜱ!" to player
+            stop
+
+        if clicked slot is 15:
+            openPetsCollection(player)
+            stop
+
+        if clicked slot is 22:
+            openPetOdds(player)
+            stop
+
+        stop
+
+    # ODDS GUI
+    if {_title} is "&8ᴘᴇᴛ ᴄʜᴀɴᴄᴇꜱ & ɪɴꜰᴏ":
+        cancel event
+        if clicked inventory is not event-inventory:
+            stop
         if clicked slot is 49:
-            execute player command "/pets"
+            openPetsMainMenu(player)
+            stop
+        stop
+
+    # COLLECTION / DELETE (no OR)
+    if {_title} is "&a&lʏᴏᴜʀ ᴘᴇᴛꜱ":
+        cancel event
+    else if {_title} is "&c&lᴅᴇʟᴇᴛᴇ ʏᴏᴜʀ ᴘᴇᴛꜱ 🗑":
+        cancel event
+    else:
+        stop
+
+    if clicked slot is 40:
+        clear metadata value "delete_mode" of player
+        openPetsMainMenu(player)
+        stop
+
+    if clicked slot is 44:
+        if player has metadata value "delete_mode":
+            clear metadata value "delete_mode" of player
+            send "&aExited deletion mode." to player
+        else:
+            set metadata value "delete_mode" of player to true
+            send "&cEntered deletion mode!" to player
+        openPetsCollection(player)
+        stop
+
+    if player has metadata value "delete_mode":
+        if clicked slot is between 0 and 35:
+            set {_slot} to index of clicked slot
+            set {_pet} to {pet_gui_map::%uuid of player%::%{_slot}%}
+
+            if {_pet} is not set:
+                stop
+
+            set {_removed} to false
+            clear {_new::*}
+
+            loop {pets::%uuid of player%::*}:
+                set {_v} to loop-value
+                if {_removed} is false:
+                    if {_v} is {_pet}:
+                        set {_removed} to true
+                        continue
+                add {_v} to {_new::*}
+
+            if {_removed} is false:
+                stop
+
+            clear {pets::%uuid of player%::*}
+            set {_i} to 0
+            loop {_new::*}:
+                add 1 to {_i}
+                set {pets::%uuid of player%::%{_i}%} to loop-value
+
+            updatePlayerMulti(player)
+            play sound "entity.item.break" to player
+            send "&c&l🗑 &7Removed &e%{_pet}% &7from your collection." to player
+
+            if {@pets_debug} is true:
+                send "&8[&dPetsDebug&8] &7Removed OK. New size=&f%size of {pets::%uuid of player%::*}%&7." to player
+
+            openPetsCollection(player)
+            stop
+
+    stop
